@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../db");
+const bcrypt = require("bcrypt");
 
 //* register route
 router.post("/register", async (req, res) => {
@@ -17,12 +18,18 @@ router.post("/register", async (req, res) => {
     if (user.rows.length !== 0) {
       return res.status(401).json("user already exist"); // 401 means unauthenticated
     }
+    // hash password using bcrypt
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const bcryptPassword = await bcrypt.hash(password, salt);
 
-    // query store
+    // query to store new user;
     const newUser = await pool.query(
       "INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *",
-      [name, email, password]
+      [name, email, bcryptPassword]
     );
+
+    // return newUser
     res.json(newUser.rows);
   } catch (error) {
     console.error(error.message);
