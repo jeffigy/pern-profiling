@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import LogOut from "@/containers/LogOut";
+
 type NavbarProps = {
   isAuthenticated: boolean;
+  setAuth: (bool: boolean) => void;
 };
 
-const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
+const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, setAuth }) => {
   return (
     <div className="flex h-[56px] items-center justify-between bg-gray-200 px-5">
       <h1 className="text-2xl font-bold">Profiling</h1>
@@ -23,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
               Settings
             </Link>
           </div>
-          <Button variant="ghost">Logout</Button>
+          <LogOut setAuth={setAuth} />
         </>
       )}
 

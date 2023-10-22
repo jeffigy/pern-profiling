@@ -39,7 +39,7 @@ function App(props: any) {
   }, []);
 
   return (
-    <Layout isAuthenticated={isAuthenticated}>
+    <Layout isAuthenticated={isAuthenticated} setAuth={setAuth}>
       <Routes>
         <Route
           path="/"
