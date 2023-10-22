@@ -1,32 +1,42 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-type NavbarProps = {};
+type NavbarProps = {
+  isAuthenticated: boolean;
+};
 
-const Navbar: React.FC<NavbarProps> = () => {
+const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
   return (
     <div className="flex h-[56px] items-center justify-between bg-gray-200 px-5">
       <h1 className="text-2xl font-bold">Profiling</h1>
-      {/* <div className="flex gap-5">
-        <Link className="text-purple-700" to="/">
-          Home
-        </Link>
-        <Link className="text-purple-700" to="/profile">
-          Profile
-        </Link>
-        <Link className="text-purple-700" to="/settings">
-          Settings
-        </Link>
-      </div> */}
-      {/* <Button variant="ghost">Logout</Button> */}
-      <div className="flex gap-5">
-        <Link className="text-purple-700" to={"/signup"}>
-          Sign Up
-        </Link>
-        <Link className="text-purple-700" to={"/login"}>
-          Log In
-        </Link>
-      </div>
+      {isAuthenticated && (
+        <>
+          {" "}
+          <div className="flex gap-5">
+            <Link className="text-purple-700" to="/">
+              Home
+            </Link>
+            <Link className="text-purple-700" to="/profile">
+              Profile
+            </Link>
+            <Link className="text-purple-700" to="/settings">
+              Settings
+            </Link>
+          </div>
+          <Button variant="ghost">Logout</Button>
+        </>
+      )}
+
+      {!isAuthenticated && (
+        <div className="flex gap-5">
+          <Link className="text-purple-700" to={"/signup"}>
+            Sign Up
+          </Link>
+          <Link className="text-purple-700" to={"/login"}>
+            Log In
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

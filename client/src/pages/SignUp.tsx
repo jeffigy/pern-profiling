@@ -10,9 +10,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-type SignUpProps = {};
+type SignUpProps = { setAuth: (bool: boolean) => void };
 
-const SignUp: React.FC<SignUpProps> = () => {
+const SignUp: React.FC<SignUpProps> = ({ setAuth }) => {
   return (
     <Card className="w-[450px]">
       <CardHeader className="items-center">
