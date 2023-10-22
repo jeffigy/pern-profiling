@@ -1,6 +1,16 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 type LogOutProps = {
   setAuth: (bool: boolean) => void;
 };
@@ -13,9 +23,20 @@ const LogOut: React.FC<LogOutProps> = ({ setAuth }) => {
     toast("You have been logged out");
   };
   return (
-    <Button className="bg-purple-700" onClick={logOut}>
-      Log out
-    </Button>
+    <Dialog>
+      <DialogTrigger>Log out</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>are sure you want to log out?</DialogTitle>
+          <DialogDescription>This action cannot be undone</DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex justify-between">
+          <Button className="bg-red-700" onClick={logOut}>
+            Yes, log me out
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 export default LogOut;

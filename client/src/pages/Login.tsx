@@ -45,12 +45,12 @@ const Login: React.FC<LoginProps> = ({ setAuth }) => {
       });
 
       //parse response as JSON
-      const parseRes = await response.json();
+      const { token } = await response.json();
 
       // if there is existing token
-      if (parseRes.token) {
+      if (token) {
         // store token in localstorage
-        localStorage.setItem("token", parseRes.token);
+        localStorage.setItem("token", token);
         // set setAuth to true
         setAuth(true);
         // show toast
