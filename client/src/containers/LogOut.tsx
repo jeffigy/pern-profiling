@@ -24,7 +24,9 @@ const LogOut: React.FC<LogOutProps> = ({ setAuth }) => {
   };
   return (
     <Dialog>
-      <DialogTrigger>Log out</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button className="bg-purple-700">Log out</Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>are sure you want to log out?</DialogTitle>
