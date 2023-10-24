@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({
   return (
     <div className="flex flex-col">
       <Navbar isAuthenticated={isAuthenticated} setAuth={setAuth} />
-      <div className="mx-auto py-10"> {children}</div>
+      <main className="mx-auto py-10"> {children}</main>
     </div>
   );
 };
