@@ -34,4 +34,42 @@ router.post("/persons", authorization, async (req, res) => {
   }
 });
 
+// edit a person
+router.put("/persons/:id", authorization, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { fname, lname, bday, sex, address } = req.body;
+    const unixTimeStamp = Math.floor(new Date(bday).getTime() / 1000);
+    const updatePerson = await pool.query(
+      "UPDATE persons SET person_fname = $1, person_lname = $2, person_bday = $3, person_sex = $4, person_address = $5 WHERE person_id = $6 AND user_id = $7 RETURNING *",
+      [fname, lname, unixTimeStamp, sex, address, id, req.user.id]
+    );
+    if (updatePerson.rows.length === 0) {
+      return res.json("This person record is not yours");
+    }
+    res.json("Person was updated");
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+// delete a person's record
+
+router.delete("/persons/:id", authorization, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletePerson = await pool.query(
+      "DELETE FROM persons WHERE person_id = $1 AND user_id = $2 RETURNING *",
+      [id, req.user.id]
+    );
+
+    if (deletePerson.rows.length === 0) {
+      return res.json("this person record is not yours");
+    }
+    res.json("Person was deleted");
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 module.exports = router;

@@ -1,11 +1,10 @@
 import AddPerson from "@/containers/person/AddPerson";
 import ListPerson from "@/containers/person/ListPerson";
-import { columns } from "@/containers/person/column";
 import React, { useEffect, useState } from "react";
 type HomeProps = { setAuth: (bool: boolean) => void; columns: any; data: [] };
 
-const Home: React.FC<HomeProps> = ({ setAuth }) => {
-  const [allpersons, setAllPersons] = useState([]);
+const Home: React.FC<HomeProps> = () => {
+  const [allPersons, setAllPersons] = useState([]);
   const [personsChange, setPersonsChange] = useState(false);
   const [name, setName] = useState("");
 
@@ -32,11 +31,7 @@ const Home: React.FC<HomeProps> = ({ setAuth }) => {
     <>
       <h1>welcome back: {name}</h1>
       <AddPerson setPersonsChange={setPersonsChange} />
-      <ListPerson
-        data={allpersons}
-        columns={columns}
-        setPersonsChange={setPersonsChange}
-      />
+      <ListPerson allPersons={allPersons} setPersonsChange={setPersonsChange} />
     </>
   );
 };

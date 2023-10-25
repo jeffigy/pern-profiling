@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -14,18 +12,19 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 type EditPersonProps = {
   data: any;
+  setPersonsChange: (bool: boolean) => void;
 };
 
 const EditPerson: React.FC<EditPersonProps> = ({ data }) => {
-  console.log(data.original.person_address);
+  console.log(data);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [personDetails, setPersonDetails] = useState({
-    fname: data.original.persons_fname,
-    lname: data.original.persons_lname,
-    bday: data.original.persons_bday,
-    sex: data.original.persons_sex,
-    address: data.original.persons_address,
+    fname: data.person_fname,
+    lname: data.person_lname,
+    bday: data.person_bday,
+    sex: data.person_sex,
+    address: data.person_address,
   });
   // destructured personDetails
   const { fname, lname, bday, sex, address } = personDetails;
@@ -34,7 +33,24 @@ const EditPerson: React.FC<EditPersonProps> = ({ data }) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPersonDetails({ ...personDetails, [e.target.name]: e.target.value });
   };
-  //   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {};
+
+  async function editDetails(id: number) {
+    try {
+      const body = { fname, lname, bday, sex, address };
+      console.log(body);
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("token", localStorage.token);
+
+      await fetch(`http://localhost:5000/home/persons/${id}`, {
+        method: "PUT",
+        headers: myHeaders,
+        body: JSON.stringify(body),
+      });
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -42,9 +58,7 @@ const EditPerson: React.FC<EditPersonProps> = ({ data }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>{/* <DialogTitle>{data}</DialogTitle> */}</DialogHeader>
-        <form
-        // onSubmit={onSubmit}
-        >
+        <form>
           <div className="grid gap-4 py-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="fname">First Name</Label>
@@ -108,14 +122,15 @@ const EditPerson: React.FC<EditPersonProps> = ({ data }) => {
               disabled={isLoading}
               type="submit"
               className="w-full bg-purple-700"
+              onClick={() => editDetails(data.person_id)}
             >
               {isLoading === true ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Adding Person
+                  Updating Person
                 </>
               ) : (
-                "Add Person"
+                "Update Person"
               )}
             </Button>
           </DialogFooter>
