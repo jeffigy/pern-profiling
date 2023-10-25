@@ -1,6 +1,18 @@
 "use client";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+// import { Button } from "react-day-picker";
+import { Button } from "@/components/ui/button";
+import EditPerson from "./EditPerson";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -37,5 +49,12 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "person_address",
     header: "Address",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const data = row;
+      return <EditPerson data={data} />;
+    },
   },
 ];
